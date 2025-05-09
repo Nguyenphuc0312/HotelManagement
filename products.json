@@ -1,0 +1,44 @@
+[
+    {
+        "name": "Laptop Dell XPS 13",
+        "description": "Máy tính xách tay cao cấp với màn hình 13 inch, hiệu suất mạnh mẽ.",
+        "price": 25000000,
+        "image": "https://images.unsplash.com/photo-1593642634315-48f5414c3ad9?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+        "rating": 4.5
+    },
+    {
+        "name": "iPhone 14 Pro",
+        "description": "Điện thoại thông minh với camera 48MP và chip A16 Bionic.",
+        "price": 29000000,
+        "image": "https://images.unsplash.com/photo-1664478546384-d57ffe74a78c?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+        "rating": 4.8
+    },
+    {
+        "name": "Tai Nghe Sony WH-1000XM5",
+        "description": "Tai nghe không dây với khả năng chống ồn hàng đầu.",
+        "price": 8500000,
+        "image": "https://images.unsplash.com/photo-1613040809024-b4ef7baed2ed?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+        "rating": 4.7
+    },
+    {
+        "name": "Apple Watch Series 8",
+        "description": "Đồng hồ thông minh với tính năng theo dõi sức khỏe tiên tiến.",
+        "price": 12000000,
+        "image": "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+        "rating": 4.6
+    },
+    {
+        "name": "Máy Ảnh Canon EOS R5",
+        "description": "Máy ảnh không gương lật với cảm biến 45MP, quay video 8K.",
+        "price": 95000000,
+        "image": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+        "rating": 4.9
+    },
+    {
+        "name": "Loa Bluetooth JBL Charge 5",
+        "description": "Loa không dây với âm thanh mạnh mẽ, pin 20 giờ.",
+        "price": 4500000,
+        "image": "https://images.unsplash.com/photo-1608043152269-423dbba3e7e6?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+        "rating": 4.4
+    }
+]   

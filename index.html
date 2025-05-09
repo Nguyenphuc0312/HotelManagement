@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cửa Hàng Sản Phẩm</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="styles.css">
+        <style>
+            .swiper {
+                width: 100%;
+                height: 600px;
+            }
+            .swiper-slide img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                filter: brightness(65%);
+            }
+            .swiper-slide .caption {
+                position: absolute;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0, 0, 0, 0.6);
+                border-radius: 10px;
+                padding: 20px;
+                text-align: center;
+                animation: fadeInUp 1s ease-in-out;
+            }
+            body.dark-mode .swiper-slide .caption {
+                background: rgba(0, 0, 0, 0.8);
+            }
+            .swiper-button-next,
+            .swiper-button-prev {
+                color: #fff;
+                transition: opacity 0.3s;
+            }
+            .swiper-button-next:hover,
+            .swiper-button-prev:hover {
+                opacity: 0.8;
+            }
+            .swiper-pagination-bullet {
+                background: #fff;
+                opacity: 0.5;
+            }
+            .swiper-pagination-bullet-active {
+                background: #fff;
+                opacity: 1;
+            }
+            .welcome-section, .blog-section {
+                background: rgba(255, 255, 255, 0.15);
+                border-radius: 15px;
+                padding: 40px;
+                margin: 50px auto;
+                max-width: 800px;
+                text-align: center;
+                animation: fadeIn 1.5s ease-in-out;
+            }
+            body.dark-mode .welcome-section,
+            body.dark-mode .blog-section {
+                background: var(--dark-section-bg);
+            }
+            @media (max-width: 768px) {
+                .swiper { height: 400px; }
+                .swiper-slide .caption h5 { font-size: 1.5rem; }
+                .swiper-slide .caption p { font-size: 0.9rem; }
+                .welcome-section, .blog-section { margin: 30px 15px; padding: 20px; max-width: 100%; }
+                .welcome-section h1, .blog-section h1 { font-size: 1.8rem; }
+                .welcome-section p, .blog-section p { font-size: 1rem; }
+                .btn-primary { width: 100%; margin-top: 10px; }
+            }
+            @media (max-width: 576px) {
+                .swiper { height: 300px; }
+                .swiper-slide .caption h5 { font-size: 1.2rem; }
+                .swiper-slide .caption p { font-size: 0.8rem; }
+                .welcome-section h1, .blog-section h1 { font-size: 1.5rem; }
+                .welcome-section p, .blog-section p { font-size: 0.9rem; }
+            }
+            @media (min-width: 1200px) {
+                .welcome-section, .blog-section { max-width: 900px; }
+            }
+        </style>
+    </head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html" data-en="Product Store" data-vi="Cửa Hàng Sản Phẩm">Cửa Hàng Sản Phẩm</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html" data-en="Home" data-vi="Trang Chủ">Trang Chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="products.html" data-en="Products" data-vi="Sản Phẩm">Sản Phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html" data-en="About" data-vi="Giới Thiệu">Giới Thiệu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html" data-en="Contact" data-vi="Liên Hệ">Liên Hệ</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center ms-auto">
+                    <div class="language-toggle">
+                        <select id="languageSelect" class="form-select form-select-sm">
+                            <option value="vi" data-flag="🇻🇳">Tiếng Việt</option>
+                            <option value="en" data-flag="🇬🇧">English</option>
+                        </select>
+                    </div>
+                    <button class="dark-mode-toggle" id="darkModeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <a href="#" class="cart-icon" id="cartIcon" data-bs-toggle="modal" data-bs-target="#cartModal">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                    <div class="auth-nav ms-3" id="authNav">
+                        <a href="login.html" class="nav-link" id="loginLink" data-en="Login" data-vi="Đăng nhập">Đăng nhập</a>
+                        <span id="userInfo" class="nav-link" style="display: none;"></span>
+                        <a href="#" class="nav-link" id="logoutLink" style="display: none;" data-en="Logout" data-vi="Đăng xuất">Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="image-skeleton" style="height: 600px;"></div>
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Slide 1" loading="lazy" onload="this.previousElementSibling.style.display='none';">
+                <div class="caption d-none d-md-block">
+                    <h5 data-en="Welcome to Our Store" data-vi="Chào Mừng Đến Với Cửa Hàng">Chào Mừng Đến Với Cửa Hàng</h5>
+                    <p data-en="Explore our high-quality electronics." data-vi="Khám phá những sản phẩm điện tử chất lượng cao nhất.">Khám phá những sản phẩm điện tử chất lượng cao nhất.</p>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="image-skeleton" style="height: 600px;"></div>
+                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Slide 2" loading="lazy" onload="this.previousElementSibling.style.display='none';">
+                <div class="caption d-none d-md-block">
+                    <h5 data-en="Great Products" data-vi="Sản Phẩm Tuyệt Vời">Sản Phẩm Tuyệt Vời</h5>
+                    <p data-en="Shop the latest devices and accessories." data-vi="Mua sắm các thiết bị và phụ kiện mới nhất.">Mua sắm các thiết bị và phụ kiện mới nhất.</p>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="image-skeleton" style="height: 600px;"></div>
+                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Slide 3" loading="lazy" onload="this.previousElementSibling.style.display='none';">
+                <div class="caption d-none d-md-block">
+                    <h5 data-en="Special Offers" data-vi="Ưu Đãi Đặc Biệt">Ưu Đãi Đặc Biệt</h5>
+                    <p data-en="Save big on your purchases today." data-vi="Tiết kiệm lớn khi mua sắm hôm nay.">Tiết kiệm lớn khi mua sắm hôm nay.</p>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+    <div class="welcome-section">
+        <h1 class="mb-4" data-en="Welcome to Our Product Store" data-vi="Chào Mừng Đến Với Cửa Hàng Sản Phẩm">Chào Mừng Đến Với Cửa Hàng Sản Phẩm</h1>
+        <p data-en="Discover our collection of high-quality electronics at competitive prices. Shop now for exclusive offers!" data-vi="Khám phá bộ sưu tập các sản phẩm điện tử chất lượng cao với giá cả cạnh tranh. Mua sắm ngay để nhận ưu đãi độc quyền!">Khám phá bộ sưu tập các sản phẩm điện tử chất lượng cao với giá cả cạnh tranh. Mua sắm ngay để nhận ưu đãi độc quyền!</p>
+        <a href="products.html" class="btn btn-primary mt-3" data-en="Shop Now" data-vi="Mua Sắm Ngay">Mua Sắm Ngay</a>
+    </div>
+    <div class="blog-section">
+        <h1 class="mb-4" data-en="Latest News" data-vi="Tin Tức Mới Nhất">Tin Tức Mới Nhất</h1>
+        <p data-en="Stay updated with the latest trends and offers in our store!" data-vi="Cập nhật xu hướng và ưu đãi mới nhất từ cửa hàng của chúng tôi!">Cập nhật xu hướng và ưu đãi mới nhất từ cửa hàng của chúng tôi!</p>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="image-skeleton" style="height: 200px;"></div>
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" class="card-img-top" alt="Blog 1" loading="lazy" onload="this.previousElementSibling.style.display='none';">
+                    <div class="card-body">
+                        <h5 class="card-title" data-en="New Arrivals" data-vi="Sản Phẩm Mới">Sản Phẩm Mới</h5>
+                        <p class="card-text" data-en="Check out our latest electronics released this month." data-vi="Khám phá các sản phẩm điện tử mới ra mắt trong tháng này.">Khám phá các sản phẩm điện tử mới ra mắt trong tháng này.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="image-skeleton" style="height: 200px;"></div>
+                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" class="card-img-top" alt="Blog 2" loading="lazy" onload="this.previousElementSibling.style.display='none';">
+                    <div class="card-body">
+                        <h5 class="card-title" data-en="Special Discounts" data-vi="Giảm Giá Đặc Biệt">Giảm Giá Đặc Biệt</h5>
+                        <p class="card-text" data-en="Enjoy up to 50% off on selected items!" data-vi="Tận hưởng giảm giá lên đến 50% cho các sản phẩm chọn lọc!">Tận hưởng giảm giá lên đến 50% cho các sản phẩm chọn lọc!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="image-skeleton" style="height: 200px;"></div>
+                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" class="card-img-top" alt="Blog 3" loading="lazy" onload="this.previousElementSibling.style.display='none';">
+                    <div class="card-body">
+                        <h5 class="card-title" data-en="Tech Tips" data-vi="Mẹo Công Nghệ">Mẹo Công Nghệ</h5>
+                        <p class="card-text" data-en="Learn how to maximize your device performance." data-vi="Tìm hiểu cách tối ưu hiệu suất thiết bị của bạn.">Tìm hiểu cách tối ưu hiệu suất thiết bị của bạn.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade cart-modal" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cartModalLabel" data-en="Your Cart" data-vi="Giỏ Hàng Của Bạn">Giỏ Hàng Của Bạn</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cartItems"></div>
+                    <div class="cart-total" data-en="Total: " data-vi="Tổng cộng: ">Tổng cộng: <span id="cartTotal">0 VNĐ</span></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-en="Close" data-vi="Đóng">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="Products.checkout()" data-en="Checkout" data-vi="Thanh Toán">Thanh Toán</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container text-center">
+            <p data-en="© 2025 Product Store. All rights reserved." data-vi="© 2025 Cửa Hàng Sản Phẩm. Mọi quyền được bảo lưu.">© 2025 Cửa Hàng Sản Phẩm. Mọi quyền được bảo lưu.</p>
+            <p data-en="Follow us:" data-vi="Theo dõi chúng tôi:">Theo dõi chúng tôi: 
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="common.js"></script>
+    <script src="darkMode.js"></script>
+    <script src="login.js"></script>
+    <script>
+        const swiper = new Swiper('.swiper', {
+            loop: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            grabCursor: true,
+        });
+    </script>
+</body>
+</html>

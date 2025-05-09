@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-en="Login/Register - Product Store" data-vi="Đăng nhập/Đăng ký - Cửa Hàng Sản Phẩm">Đăng nhập/Đăng ký - Cửa Hàng Sản Phẩm</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- CSS riêng cho trang login -->
+    <style>
+        .auth-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            animation: fadeInUp 1s ease-in-out;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        body.dark-mode .auth-container {
+            background: var(--dark-card-bg);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .auth-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+            font-size: 2rem;
+            animation: fadeIn 1.5s ease-in-out;
+            color: #fff;
+        }
+        body.dark-mode .auth-title {
+            color: var(--dark-text);
+        }
+        .form-control {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #fff;
+            transition: background 0.3s, color 0.3s;
+        }
+        body.dark-mode .form-control {
+            background: var(--dark-input-bg);
+            color: var(--dark-text);
+        }
+        .form-control::placeholder {
+            color: #ccc;
+        }
+        body.dark-mode .form-control::placeholder {
+            color: #aaa;
+        }
+        .form-switch {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .form-switch a {
+            color: var(--primary-color);
+            transition: color 0.3s;
+        }
+        body.dark-mode .form-switch a {
+            color: var(--dark-primary);
+        }
+        .form-switch a:hover {
+            color: #fff;
+        }
+        body.dark-mode .form-switch a:hover {
+            color: #b0e0ff;
+        }
+        .form-switch p {
+            color: #fff;
+        }
+        body.dark-mode .form-switch p {
+            color: var(--dark-text);
+        }
+        .form-label {
+            color: #fff;
+        }
+        body.dark-mode .form-label {
+            color: var(--dark-text);
+        }
+        /* Đảm bảo navbar và footer phản ánh Dark Mode */
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+        }
+        body.dark-mode .navbar-brand,
+        body.dark-mode .nav-link {
+            color: var(--dark-text) !important;
+        }
+        .footer a, .footer p {
+            color: #fff;
+        }
+        body.dark-mode .footer a,
+        body.dark-mode .footer p {
+            color: var(--dark-text);
+        }
+        /* Tùy chỉnh nút đa ngôn ngữ */
+        .language-toggle {
+            margin-right: 10px;
+        }
+        .language-toggle select {
+            padding: 5px 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            appearance: none; /* Loại bỏ giao diện mặc định của select */
+            cursor: pointer;
+        }
+        body.dark-mode .language-toggle select {
+            background-color: var(--dark-input-bg);
+            color: var(--dark-text);
+        }
+        .language-toggle select option {
+            background-color: #fff;
+            color: #333;
+        }
+        body.dark-mode .language-toggle select option {
+            background-color: var(--dark-card-bg);
+            color: var(--dark-text);
+        }
+        @media (max-width: 768px) {
+            .auth-container {
+                margin: 30px 15px;
+                padding: 20px;
+            }
+            .auth-title {
+                font-size: 1.8rem;
+            }
+            .form-control {
+                font-size: 0.9rem;
+            }
+            .btn-primary {
+                width: 100%;
+            }
+        }
+        @media (max-width: 576px) {
+            .auth-title {
+                font-size: 1.5rem;
+            }
+            .form-control {
+                font-size: 0.8rem;
+            }
+        }
+        /* Điều chỉnh navbar */
+        .navbar .d-flex.align-items-center.ms-auto {
+            gap: 10px; /* Khoảng cách giữa các phần tử */
+            align-items: center;
+            flex-wrap: wrap; /* Cho phép xuống dòng nếu không đủ chỗ */
+        }
+        .auth-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Khoảng cách giữa loginLink, userInfo, logoutLink */
+        }
+        #userInfo, #logoutLink {
+            display: inline !important; /* Đảm bảo hiển thị trên cùng một dòng nếu có đủ chỗ */
+            margin: 0 !important; /* Bỏ margin thừa */
+        }
+        .cart-icon {
+            display: flex;
+            align-items: center;
+            gap: 5px; /* Khoảng cách giữa biểu tượng giỏ hàng và số lượng */
+        }
+        .dark-mode-toggle {
+            background: none;
+            border: none;
+            padding: 0;
+            color: #fff;
+        }
+        body.dark-mode .dark-mode-toggle {
+            color: var(--dark-text);
+        }
+        @media (max-width: 992px) {
+            .navbar .d-flex.align-items-center.ms-auto {
+                flex-direction: row; /* Giữ các phần tử trên cùng một dòng nếu có thể */
+                gap: 8px;
+                margin-top: 10px;
+            }
+            .auth-nav {
+                flex-wrap: wrap; /* Cho phép xuống dòng nếu không đủ chỗ */
+                gap: 5px;
+            }
+            #userInfo, #logoutLink {
+                display: inline !important; /* Đảm bảo trên cùng một dòng nếu có thể */
+            }
+        }
+        @media (max-width: 576px) {
+            .navbar .d-flex.align-items-center.ms-auto {
+                flex-direction: column; /* Xuống dòng trên màn hình rất nhỏ */
+                align-items: flex-start;
+                gap: 5px;
+            }
+            .auth-nav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            #userInfo, #logoutLink {
+                display: block !important; /* Xuống dòng trên màn hình rất nhỏ */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html" data-en="Product Store" data-vi="Cửa Hàng Sản Phẩm">Cửa Hàng Sản Phẩm</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" data-en="Home" data-vi="Trang Chủ">Trang Chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="products.html" data-en="Products" data-vi="Sản Phẩm">Sản Phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html" data-en="About" data-vi="Giới Thiệu">Giới Thiệu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html" data-en="Contact" data-vi="Liên Hệ">Liên Hệ</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center ms-auto">
+                    <!-- Language Toggle -->
+                    <div class="language-toggle">
+                        <select id="languageSelect" class="form-select form-select-sm">
+                            <option value="vi">Tiếng Việt</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                    <!-- Dark Mode Toggle Button -->
+                    <button class="dark-mode-toggle" id="darkModeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <!-- Cart Icon -->
+                    <a href="#" class="cart-icon" id="cartIcon" data-bs-toggle="modal" data-bs-target="#cartModal">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                    <!-- Auth Section -->
+                    <div class="auth-nav ms-3" id="authNav">
+                        <a href="login.html" class="nav-link" id="loginLink" data-en="Login" data-vi="Đăng nhập">Đăng nhập</a>
+                        <span id="userInfo" class="nav-link" style="display: none;"></span>
+                        <a href="#" class="nav-link" id="logoutLink" style="display: none;" data-en="Logout" data-vi="Đăng xuất">Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Nội dung chính -->
+    <div class="auth-container">
+        <!-- Form Đăng nhập -->
+        <div id="loginFormSection">
+            <h2 class="auth-title" data-en="Login to Your Account" data-vi="Đăng nhập vào tài khoản của bạn">Đăng nhập vào tài khoản của bạn</h2>
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="username" class="form-label" data-en="Email" data-vi="Email">Email</label>
+                    <input type="email" class="form-control" id="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label" data-en="Password" data-vi="Mật khẩu">Mật khẩu</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100" data-en="Login" data-vi="Đăng nhập">Đăng nhập</button>
+            </form>
+            <div class="form-switch ps-0">
+                <p data-en="Don't have an account?" data-vi="Chưa có tài khoản?">Chưa có tài khoản?</p>
+                <a href="#" id="switchToRegister" data-en="Register here" data-vi="Đăng ký tại đây">Đăng ký tại đây</a>
+            </div>
+        </div>
+
+        <!-- Form Đăng ký -->
+        <div id="registerFormSection" style="display: none;">
+            <h2 class="auth-title" data-en="Create Your Account" data-vi="Tạo tài khoản của bạn">Tạo tài khoản của bạn</h2>
+            <form id="registerForm">
+                <div class="mb-3">
+                    <label for="regUsername" class="form-label" data-en="Email" data-vi="Email">Email</label>
+                    <input type="email" class="form-control" id="regUsername" required>
+                </div>
+                <div class="mb-3">
+                    <label for="regPassword" class="form-label" data-en="Password" data-vi="Mật khẩu">Mật khẩu</label>
+                    <input type="password" class="form-control" id="regPassword" required>
+                </div>
+                <div class="mb-3">
+                    <label for="regConfirmPassword" class="form-label" data-en="Confirm Password" data-vi="Xác nhận mật khẩu">Xác nhận mật khẩu</label>
+                    <input type="password" class="form-control" id="regConfirmPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100" data-en="Register" data-vi="Đăng ký">Đăng ký</button>
+            </form>
+            <div class="form-switch ps-0">
+                <p data-en="Already have an account?" data-vi="Đã có tài khoản?">Đã có tài khoản?</p>
+                <a href="#" id="switchToLogin" data-en="Login here" data-vi="Đăng nhập tại đây">Đăng nhập tại đây</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer text-center">
+        <div class="container">
+            <p>© 2025 <span data-en="Product Store" data-vi="Cửa Hàng Sản Phẩm">Cửa Hàng Sản Phẩm</span>. 
+            <span data-en="All rights reserved." data-vi="Mọi quyền được bảo lưu.">Mọi quyền được bảo lưu.</span></p>
+            <a href="#" data-en="Privacy Policy" data-vi="Chính sách bảo mật">Chính sách bảo mật</a> | 
+            <a href="#" data-en="Terms of Service" data-vi="Điều khoản dịch vụ">Điều khoản dịch vụ</a>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div class="modal fade cart-modal" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cartModalLabel" data-en="Your Cart" data-vi="Giỏ hàng của bạn">Giỏ hàng của bạn</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="cartItems">
+                    <!-- Cart items will be dynamically added here -->
+                </div>
+                <div class="modal-footer">
+                    <div class="cart-total" id="cartTotal" data-en="Total: $0" data-vi="Tổng cộng: 0đ">Tổng cộng: 0đ</div>
+                    <button type="button" class="btn btn-primary" onclick="Products.checkout()" data-en="Checkout" data-vi="Thanh toán">Thanh toán</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-en="Close" data-vi="Đóng">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="common.js"></script>
+    <script src="darkMode.js"></script>
+    <script src="login.js"></script>
+    <script src="products.js"></script>
+</body>
+</html>
